@@ -12,8 +12,8 @@
 
 ## 🎥 Demo
 
-![Demo GIF](docs/demo.gif)  
-*(replace with actual gif or screenshot later)*
+![Demo GIF](assets/Screenshot(307)...png)  
+
 
 ---
 
@@ -45,10 +45,16 @@ Sensor (real or simulated)
 ## 📷 Screenshots
 
 ### 🟢 Real-Time Monitoring  
-![Live Data Screenshot](docs/live.png)
+![Live Data Screenshot](assets/Screenshot(307)...png)
 
 ### 📈 Overlay Chart  
-![Overlay Chart Screenshot](docs/chart.png)
+![Overlay Chart Screenshot](assets/Screenshot(309)...png)
+
+### FastAPI
+![FastAPI](assets/Screenshot(311)...png)
+
+### IOTSensor Simulator
+![IOTSensorSimulator](assets/Screenshot(310)...png)
 
 ---
 
