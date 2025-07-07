@@ -45,16 +45,16 @@ Sensor (real or simulated)
 ## 📷 Screenshots
 
 ### 🟢 Real-Time Monitoring  
-![Live Data Screenshot](assets/Screenshot(307)...png)
+![Live Data Screenshot](assets/Screenshot(307)...PNG)
 
 ### 📈 Overlay Chart  
-![Overlay Chart Screenshot](assets/Screenshot(309)...png)
+![Overlay Chart Screenshot](assets/Screenshot(309)...PNG)
 
 ### FastAPI
-![FastAPI](assets/Screenshot(311)...png)
+![FastAPI](assets/Screenshot(311)...PNG)
 
 ### IOTSensor Simulator
-![IOTSensorSimulator](assets/Screenshot(310)...png)
+![IOTSensorSimulator](assets/Screenshot(310)...PNG)
 
 ---
 
