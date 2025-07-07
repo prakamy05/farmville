@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Indoor Farming Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    canvas { max-width: 100%; }
+    .chart-container { margin-bottom: 50px; }
+  </style>
+</head>
+<body>
+  <h1>Indoor Farming Dashboard 🌱</h1>
+
+  <h2>📡 Live Sensor Data (updates every 10s)</h2>
+  <div id="live-data">Loading...</div>
+
+  <h2>📊 Historical Data Viewer</h2>
+  <label for="start">Start:</label>
+  <input type="datetime-local" id="start">
+  <label for="end">End:</label>
+  <input type="datetime-local" id="end">
+  <button onclick="loadHistoricalData()">Load</button>
+
+  <div class="chart-container">
+    <canvas id="overlayChart"></canvas>
+  </div>
+
+  <script>
+    const liveDataEl = document.getElementById("live-data");
+
+    function updateLiveData() {
+      fetch("/latest")
+        .then(res => res.json())
+        .then(data => {
+          liveDataEl.innerHTML = `
+            <b>Time:</b> ${data.timestamp} <br>
+            🌡️ <b>Temperature:</b> ${data.temperature}°C<br>
+            💧 <b>Humidity:</b> ${data.humidity}%<br>
+            🌱 <b>Soil Moisture:</b> ${data.soil_moisture}%<br>
+            💡 <b>Light Intensity:</b> ${data.light_intensity} lux
+          `;
+        })
+        .catch(() => liveDataEl.innerText = "No live data available.");
+    }
+
+    setInterval(updateLiveData, 10000);
+    updateLiveData();
+
+    let overlayChart;
+
+    function loadHistoricalData() {
+      const startRaw = document.getElementById("start").value;
+      const endRaw = document.getElementById("end").value;
+      if (!startRaw || !endRaw) return alert("Please select start and end datetime");
+
+      const start = new Date(startRaw).toISOString();
+      const end = new Date(endRaw).toISOString();
+
+      fetch(`/data?start=${start}&end=${end}`)
+        .then(res => res.json())
+        .then(data => {
+          const labels = data.map(r => new Date(r.timestamp).toLocaleString());
+
+          const datasets = [
+            {
+              label: "Temperature (°C)",
+              data: data.map(r => r.temperature),
+              borderColor: "red",
+              tension: 0.3,
+              pointRadius: 1
+            },
+            {
+              label: "Humidity (%)",
+              data: data.map(r => r.humidity),
+              borderColor: "blue",
+              tension: 0.3,
+              pointRadius: 1
+            },
+            {
+              label: "Soil Moisture (%)",
+              data: data.map(r => r.soil_moisture),
+              borderColor: "green",
+              tension: 0.3,
+              pointRadius: 1
+            },
+            {
+              label: "Light Intensity (lux)",
+              data: data.map(r => r.light_intensity),
+              borderColor: "orange",
+              tension: 0.3,
+              pointRadius: 1
+            }
+          ];
+
+          const ctx = document.getElementById("overlayChart").getContext("2d");
+          if (overlayChart) overlayChart.destroy();
+          overlayChart = new Chart(ctx, {
+            type: "line",
+            data: { labels, datasets },
+            options: {
+              responsive: true,
+              interaction: {
+                mode: 'index',
+                intersect: false,
+              },
+              plugins: {
+                legend: { position: 'top' },
+                title: {
+                  display: true,
+                  text: 'Sensor Data Overlay'
+                }
+              },
+              scales: {
+                x: {
+                  title: { display: true, text: "Timestamp" }
+                },
+                y: {
+                  title: { display: true, text: "Value" },
+                  beginAtZero: false
+                }
+              }
+            }
+          });
+        });
+    }
+  </script>
+</body>
+</html>
