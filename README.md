@@ -12,7 +12,7 @@
 
 ## 🎥 Demo
 
-![Demo GIF](assets/Screenshot(307)...png)  
+![Demo GIF](assets/Screenshot(307)...PNG)  
 
 
 ---
